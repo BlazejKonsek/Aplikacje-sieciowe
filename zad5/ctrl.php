@@ -1,7 +1,6 @@
 <?php
 require_once 'init.php';
 
-// Decide what to do based on the 'action' parameter
 
 switch ($action) {
     case 'calcView':

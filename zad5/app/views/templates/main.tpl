@@ -34,7 +34,6 @@
         {block name='footer'}
         <footer id="footer">
             <ul class="icons">
-                <!-- Add your social icons here if needed -->
             </ul>
             <ul class="copyright">
                 <li>&copy; Błażej Konsek</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>

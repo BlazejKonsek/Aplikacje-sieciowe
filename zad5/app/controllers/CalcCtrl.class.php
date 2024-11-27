@@ -1,21 +1,18 @@
 <?php
 namespace app\controllers;
 
-// Use statements for classes from other namespaces
 use app\models\CalcForm;
 use app\models\CalcResult;
 use core\Messages;
 
 class CalcCtrl {
-    private $form;   // Data from the form
-    private $result; // Calculated result
-    private $role;   // User role
+    private $form;   
+    private $result; 
+    private $role;   
 
     public function __construct() {
-        // Get the user role
         $this->role = getRole();
 
-        // Create form and result objects
         $this->form = new CalcForm();
         $this->result = new CalcResult();
     }
@@ -28,10 +25,9 @@ class CalcCtrl {
 
     public function validate() {
         if (!isset($this->form->kwota) && !isset($this->form->lata) && !isset($this->form->oprocentowanie)) {
-            return false; // No parameters provided
+            return false; 
         }
 
-        // Check if fields are empty
         if ($this->form->kwota == "") {
             getMessages()->addError('Nie podano kwoty kredytu');
         }
@@ -42,7 +38,6 @@ class CalcCtrl {
             getMessages()->addError('Nie podano oprocentowania');
         }
 
-        // Validate numeric values
         if (!getMessages()->isError()) {
             if (!is_numeric($this->form->kwota)) {
                 getMessages()->addError('Kwota kredytu nie jest liczbą');
@@ -55,7 +50,6 @@ class CalcCtrl {
             }
         }
 
-        // Check role and amount limit
         if (!getMessages()->isError()) {
             $this->form->kwota = floatval($this->form->kwota);
             if ($this->form->kwota > 10000 && $this->role != 'admin') {
@@ -67,7 +61,6 @@ class CalcCtrl {
     }
 
     public function process() {
-        // Check if user is logged in
         if ($this->role == '') {
             getMessages()->addError('Dostęp tylko dla zalogowanych użytkowników.');
             $this->generateView();
@@ -77,7 +70,6 @@ class CalcCtrl {
         $this->getParams();
 
         if ($this->validate()) {
-            // Perform calculations
             $this->form->kwota = floatval($this->form->kwota);
             $this->form->lata = floatval($this->form->lata);
             $this->form->oprocentowanie = floatval($this->form->oprocentowanie);
