@@ -4,3 +4,4 @@ class CalcForm {
     public $lata;
     public $oprocentowanie;
 }
+?>

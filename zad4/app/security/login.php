@@ -1,31 +1,31 @@
 <?php
-require_once dirname(__FILE__).'/../../config.php';
-require_once $config->root_path.'/libs/Smarty/libs/Smarty.class.php';
-require_once $config->root_path.'/libs/Messages.class.php';
+require_once dirname(__FILE__) . '/../../config.php';
+require_once $conf->root_path . '/libs/Smarty/libs/Smarty.class.php';
+require_once $conf->root_path . '/libs/Messages.class.php';
 
 session_start();
 
 $form = array();
-$messages = new Messages();
+$msgs = new Messages();
 
-function getParamsLogin(&$form){
+function getParamsLogin(&$form) {
     $form['login'] = isset($_REQUEST['login']) ? $_REQUEST['login'] : null;
     $form['pass'] = isset($_REQUEST['pass']) ? $_REQUEST['pass'] : null;
 }
 
-function validateLogin(&$form, &$messages){
+function validateLogin(&$form, &$msgs) {
     if (!isset($form['login']) || !isset($form['pass'])) {
         return false;
     }
 
     if ($form['login'] == "") {
-        $messages->addError('Nie podano loginu');
+        $msgs->addError('Nie podano loginu');
     }
     if ($form['pass'] == "") {
-        $messages->addError('Nie podano hasła');
+        $msgs->addError('Nie podano hasła');
     }
 
-    if ($messages->isError()) return false;
+    if ($msgs->isError()) return false;
 
     if ($form['login'] == "admin" && $form['pass'] == "admin") {
         $_SESSION['role'] = 'admin';
@@ -36,30 +36,27 @@ function validateLogin(&$form, &$messages){
         return true;
     }
 
-    $messages->addError('Niepoprawny login lub hasło');
+    $msgs->addError('Niepoprawny login lub hasło');
     return false;
 }
 
-// Get parameters and validate
 getParamsLogin($form);
-$isFormValid = validateLogin($form, $messages);
 
-if (!$isFormValid) {
-    // Instantiate Smarty before using it
-    require_once $config->root_path.'/libs/Smarty/libs/Smarty.class.php';
+if (!validateLogin($form, $msgs)) {
     $smarty = new Smarty();
 
-    $smarty->setTemplateDir($config->root_path.'/templates/');
-    $smarty->setCompileDir($config->root_path.'/templates_c/');
-    $smarty->setCacheDir($config->root_path.'/cache/');
+    $smarty->setTemplateDir($conf->root_path . '/templates/');
+    $smarty->setCompileDir($conf->root_path . '/templates_c/');
+    $smarty->setCacheDir($conf->root_path . '/cache/');
+    $smarty->assign('conf', $conf);
 
-    // Assign variables to the template
-    $smarty->assign('config', $config);
+    $smarty->assign('page_title', 'Logowanie');
     $smarty->assign('form', $form);
-    $smarty->assign('messages', $messages);
+    $smarty->assign('msgs', $msgs);
+    $smarty->assign('role', ''); // Assign role as empty if not set
 
     $smarty->display('login_view.tpl');
 } else {
-    header("Location: ".$config->app_url."/index.php");
+    header("Location: " . $conf->app_url . "/index.php");
 }
 ?>

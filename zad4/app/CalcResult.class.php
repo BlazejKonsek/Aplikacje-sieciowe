@@ -2,3 +2,4 @@
 class CalcResult {
     public $result;
 }
+?>
