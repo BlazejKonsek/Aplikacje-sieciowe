@@ -15,34 +15,34 @@ function requireLogin(){
 }
 
 switch ($action) {
-    default: // 'calcView' - NIEPUBLICZNA
+    default: 
         requireLogin();
         $ctrl = new app\controllers\CalcCtrl();
         $ctrl->generateView();
     break;
 
-    case 'login': // PUBLICZNA
+    case 'login': 
         $ctrl = new app\controllers\LoginCtrl();
         $ctrl->doLogin();
     break;
 
-    case 'calcCompute': // NIEPUBLICZNA
+    case 'calcCompute': 
         requireLogin();
         $ctrl = new app\controllers\CalcCtrl();
         $ctrl->process();
     break;
 
-    case 'logout': // NIEPUBLICZNA
+    case 'logout': 
         requireLogin();
         $ctrl = new app\controllers\LoginCtrl();
         $ctrl->doLogout();
     break;
 
-    case 'action1': // PUBLICZNA
+    case 'action1': 
         print('Publiczna akcja ...');
     break;
 
-    case 'action2': // NIEPUBLICZNA
+    case 'action2':
         requireLogin();
         print('Akcja niepubliczna ...');
     break;

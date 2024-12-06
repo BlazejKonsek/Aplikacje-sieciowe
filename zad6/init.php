@@ -23,7 +23,6 @@ function &getSmarty(){
 			getConf()->root_path.'/app/views',
 			getConf()->root_path.'/app/views/templates'
 		));
-		// Brak cache i css - nie dodajemy tych katalogów, zgodnie z Twoimi wytycznymi.
 	}
 	return $smarty;
 }
