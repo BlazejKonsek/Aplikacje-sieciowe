@@ -3,31 +3,29 @@ namespace app\controllers;
 
 use app\models\CalcForm;
 use app\models\CalcResult;
-use core\Messages;
 
 class CalcCtrl {
-    private $form;  
-    private $result; 
-    private $role;  
+    private $form;
+    private $result;
+    private $role;
 
-    public function __construct() {
-        $this->role = getRole();
-
+    public function __construct(){
         $this->form = new CalcForm();
         $this->result = new CalcResult();
+        $this->role = \getRole(); 
     }
-
-    public function getParams() {
+    
+    public function getParams(){
         $this->form->kwota = getFromRequest('kwota');
         $this->form->lata = getFromRequest('lata');
         $this->form->oprocentowanie = getFromRequest('oprocentowanie');
     }
-
+    
     public function validate() {
-        if (!isset($this->form->kwota) && !isset($this->form->lata) && !isset($this->form->oprocentowanie)) {
-            return false; 
+        if (! (isset($this->form->kwota) && isset($this->form->lata) && isset($this->form->oprocentowanie))) {
+            return false;
         }
-
+        
         if ($this->form->kwota == "") {
             getMessages()->addError('Nie podano kwoty kredytu');
         }
@@ -37,8 +35,8 @@ class CalcCtrl {
         if ($this->form->oprocentowanie == "") {
             getMessages()->addError('Nie podano oprocentowania');
         }
-
-        if (!getMessages()->isError()) {
+        
+        if (! getMessages()->isError()) {
             if (!is_numeric($this->form->kwota)) {
                 getMessages()->addError('Kwota kredytu nie jest liczbą');
             }
@@ -49,50 +47,59 @@ class CalcCtrl {
                 getMessages()->addError('Oprocentowanie nie jest liczbą');
             }
         }
-
-        if (!getMessages()->isError()) {
-            $this->form->kwota = floatval($this->form->kwota);
-            if ($this->form->kwota > 10000 && $this->role != 'admin') {
-                getMessages()->addError('Tylko administrator może obliczyć ratę dla kwoty powyżej 10,000.');
-            }
-        }
-
-        return !getMessages()->isError();
+        
+        return ! getMessages()->isError();
     }
-
-    public function process() {
-        if ($this->role == '') {
-            getMessages()->addError('Dostęp tylko dla zalogowanych użytkowników.');
-            $this->generateView();
-            exit();
-        }
-
+    
+    public function process(){
         $this->getParams();
-
+        
         if ($this->validate()) {
             $this->form->kwota = floatval($this->form->kwota);
             $this->form->lata = floatval($this->form->lata);
             $this->form->oprocentowanie = floatval($this->form->oprocentowanie);
             getMessages()->addInfo('Parametry poprawne.');
-
-            $this->result->result = ($this->form->kwota + $this->form->kwota * ($this->form->oprocentowanie / 100)) / ($this->form->lata * 12);
-            $this->result->result = round($this->result->result, 2);
-            getMessages()->addInfo('Wykonano obliczenia.');
+            
+            if ($this->form->kwota > 10000 && $this->role != 'admin') {
+                getMessages()->addError('Tylko administrator może obliczyć ratę powyżej 10,000.');
+            } else {
+                $this->result->result = ($this->form->kwota + $this->form->kwota * ($this->form->oprocentowanie / 100)) / ($this->form->lata * 12);
+                $this->result->result = round($this->result->result, 2);
+                getMessages()->addInfo('Wykonano obliczenia.');
+            }
         }
-
+        
         $this->generateView();
     }
+    
+    public function generateView(){
+    $user = getUserFromSession();
+    $role = $user ? $user->role : '';
 
-    public function generateView() {
-        getSmarty()->assign('page_title', 'Kalkulator Kredytowy');
-        getSmarty()->assign('page_description', 'Obiektowy kalkulator kredytowy z zabezpieczeniem.');
-        getSmarty()->assign('page_header', 'Obiektowy Kalkulator Kredytowy');
+    // Konwersja obiektów form i res na tablice
+    getSmarty()->assign('form', [
+        'kwota' => $this->form->kwota,
+        'lata' => $this->form->lata,
+        'oprocentowanie' => $this->form->oprocentowanie
+    ]);
+    getSmarty()->assign('res', [
+        'result' => isset($this->result->result) ? $this->result->result : null
+    ]);
+    getSmarty()->assign('role',$role);
+    getSmarty()->assign('user',$user);
 
-        getSmarty()->assign('form', $this->form);
-        getSmarty()->assign('res', $this->result);
-        getSmarty()->assign('role', $this->role);
+    // Przypisz zmienne wiadomości
+    $error = getMessages()->isError();
+    $info = getMessages()->isInfo();
+    $errors = getMessages()->getErrors();
+    $infos = getMessages()->getInfos();
 
-        getSmarty()->display('calc_view.tpl');
-    }
+    getSmarty()->assign('msgs_isError', $error);
+    getSmarty()->assign('msgs_isInfo', $info);
+    getSmarty()->assign('msgs_errors', $errors);
+    getSmarty()->assign('msgs_infos', $infos);
+
+    getSmarty()->assign('page_title','Kalkulator Kredytu');
+    getSmarty()->display('calc_view.tpl');
 }
-?>
+}

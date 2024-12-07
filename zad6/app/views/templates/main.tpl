@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>{block name='title'}{$page_title|default:"Kalkulator Kredytowy"}{/block}</title>
+    <title>{block name='title'}{$page_title|default:"Kalkulator Kredytu"}{/block}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{$conf->app_url}/templates/spectral/assets/css/main.css" />
@@ -16,8 +16,7 @@
             <h1><a href="{$conf->app_url}">{$page_title|default:"Kalkulator Kredytu"}</a></h1>
             <nav>
                 <ul>
-                    {if isset($role) && $role neq ''}
-                        <li>Witaj, {$role}</li>
+                    {if $role neq ''}
                         <li><a href="{$conf->action_url}logout" class="button">Wyloguj</a></li>
                     {else}
                         <li><a href="{$conf->action_url}login" class="button">Zaloguj</a></li>
@@ -34,7 +33,6 @@
         {block name='footer'}
         <footer id="footer">
             <ul class="icons">
-                <!-- Add your social icons here if needed -->
             </ul>
             <ul class="copyright">
                 <li>&copy; Błażej Konsek</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
@@ -44,7 +42,6 @@
 
     </div>
 
-    <!-- Scripts -->
     <script src="{$conf->app_url}/templates/spectral/assets/js/jquery.min.js"></script>
     <script src="{$conf->app_url}/templates/spectral/assets/js/browser.min.js"></script>
     <script src="{$conf->app_url}/templates/spectral/assets/js/breakpoints.min.js"></script>

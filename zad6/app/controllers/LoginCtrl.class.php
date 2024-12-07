@@ -1,5 +1,7 @@
 <?php
 namespace app\controllers;
+use function getRole;
+
 
 use app\forms\LoginForm;
 use app\transfer\User;
@@ -18,7 +20,7 @@ class LoginCtrl {
 	
 	public function validate() {
 		if (! (isset($this->form->login) && isset($this->form->pass))) {
-			getMessages()->addError('Błędne wywołanie aplikacji !');
+			getMessages()->addError('Błędne wywołanie aplikacji!');
 		}
 		
 		if (!getMessages()->isError()) {
@@ -34,9 +36,11 @@ class LoginCtrl {
 			if ($this->form->login == "admin" && $this->form->pass == "admin") {
 				$user = new User($this->form->login,'admin');
 				$_SESSION['user'] = serialize($user);
+				addRole($user->role);
 			} else if ($this->form->login == "user" && $this->form->pass == "user") {
 				$user = new User($this->form->login,'user');
 				$_SESSION['user'] = serialize($user);
+				addRole($user->role);
 			} else {
 				getMessages()->addError('Niepoprawny login lub hasło');
 			}
@@ -49,25 +53,40 @@ class LoginCtrl {
 		$this->getParams();
 		
 		if ($this->validate()) {
-			header("Location: ".getConf()->action_url.'calcView');
+			header("Location: ".getConf()->app_url."/");
 		} else {
 			$this->generateView();
 		}
 	}
 	
 	public function doLogout(){
-		if (session_status() == PHP_SESSION_NONE) {
-			session_start();
-		}
 		session_destroy();
-		
 		getMessages()->addInfo('Poprawnie wylogowano z systemu');
 		$this->generateView();
 	}
 	
 	public function generateView(){
-		getSmarty()->assign('page_title','Strona logowania');
-		getSmarty()->assign('form',$this->form);
-		getSmarty()->display('login_view.tpl');
-	}
+    $user = getUserFromSession();
+    $role = $user ? $user->role : '';
+
+    $error = getMessages()->isError();
+    $info = getMessages()->isInfo();
+    $errors = getMessages()->getErrors();
+    $infos = getMessages()->getInfos();
+
+    getSmarty()->assign('msgs_isError', $error);
+    getSmarty()->assign('msgs_isInfo', $info);
+    getSmarty()->assign('msgs_errors', $errors);
+    getSmarty()->assign('msgs_infos', $infos);
+
+    getSmarty()->assign('role',$role);
+    getSmarty()->assign('user',$user);
+    getSmarty()->assign('form', [
+        'login'=>$this->form->login,
+        'pass'=>$this->form->pass
+    ]);
+    getSmarty()->assign('page_title','Logowanie');
+    getSmarty()->display('login_view.tpl');
+}
+
 }

@@ -1,69 +1,115 @@
 <?php
-/* Smarty version 4.3.2, created on 2024-12-06 17:08:20
+/* Smarty version 4.3.2, created on 2024-12-07 13:24:43
   from 'C:\xampp\htdocs\zad6\app\views\login_view.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.2',
-  'unifunc' => 'content_67532174707260_35115242',
+  'unifunc' => 'content_67543e8b65f057_99363075',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2eec93d9ff787f5be6cf216984beacd7be731478' => 
     array (
       0 => 'C:\\xampp\\htdocs\\zad6\\app\\views\\login_view.tpl',
-      1 => 1733501254,
+      1 => 1733573892,
       2 => 'file',
     ),
   ),
   'includes' => 
   array (
-    'file:messages.tpl' => 1,
   ),
 ),false)) {
-function content_67532174707260_35115242 (Smarty_Internal_Template $_smarty_tpl) {
+function content_67543e8b65f057_99363075 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_1138124059675321746e4ce6_43240808', 'content');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_129981092967543e8b64fa75_13468924', 'title');
+?>
+
+
+<?php 
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_66463121367543e8b650915_91184179', 'content');
 ?>
 
 <?php $_smarty_tpl->inheritance->endChild($_smarty_tpl, "main.tpl");
 }
+/* {block 'title'} */
+class Block_129981092967543e8b64fa75_13468924 extends Smarty_Internal_Block
+{
+public $subBlocks = array (
+  'title' => 
+  array (
+    0 => 'Block_129981092967543e8b64fa75_13468924',
+  ),
+);
+public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
+?>
+Logowanie<?php
+}
+}
+/* {/block 'title'} */
 /* {block 'content'} */
-class Block_1138124059675321746e4ce6_43240808 extends Smarty_Internal_Block
+class Block_66463121367543e8b650915_91184179 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'content' => 
   array (
-    0 => 'Block_1138124059675321746e4ce6_43240808',
+    0 => 'Block_66463121367543e8b650915_91184179',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
 ?>
 
-<form action="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_url;?>
-login" method="post" class="pure-form pure-form-aligned bottom-margin">
-	<legend>Logowanie do systemu</legend>
-	<fieldset>
-		<div class="pure-control-group">
-			<label for="id_login">login: </label>
-			<input id="id_login" type="text" name="login" value="<?php echo (($tmp = $_smarty_tpl->tpl_vars['form']->value->login ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-"/>
-		</div>
-		<div class="pure-control-group">
-			<label for="id_pass">hasło: </label>
-			<input id="id_pass" type="password" name="pass" />
-		</div>
-		<div class="pure-controls">
-			<input type="submit" value="Zaloguj" class="pure-button pure-button-primary"/>
-		</div>
-	</fieldset>
-</form>
-<?php $_smarty_tpl->_subTemplateRender('file:messages.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+<section id="banner">
+    <h2>Logowanie</h2>
+    <p>Uzyskaj dostęp do kalkulatora</p>
+</section>
+
+<section class="wrapper style1 special">
+    <div class="inner">
+        <form method="post" action="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_url;?>
+login" class="container">
+            <div class="row gtr-uniform gtr-50">
+                <div class="col-12 col-12-mobilep">
+                    <input type="text" name="login" id="login" value="<?php echo $_smarty_tpl->tpl_vars['form']->value['login'];?>
+" placeholder="Login" />
+                </div>
+                <div class="col-12 col-12-mobilep">
+                    <input type="password" name="pass" id="pass" placeholder="Hasło" />
+                </div>
+                <div class="col-12">
+                    <ul class="actions special">
+                        <li><input type="submit" value="Zaloguj" class="button primary" /></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+
+        <?php if ($_smarty_tpl->tpl_vars['msgs_isError']->value) {?>
+            <section class="box">
+                <h3>Wystąpiły błędy:</h3>
+                <ul>
+                    <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['msgs_errors']->value, 'err');
+$_smarty_tpl->tpl_vars['err']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['err']->value) {
+$_smarty_tpl->tpl_vars['err']->do_else = false;
+?>
+                        <li><?php echo $_smarty_tpl->tpl_vars['err']->value;?>
+</li>
+                    <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                </ul>
+            </section>
+        <?php }?>
+    </div>
+</section>
+<?php
 }
 }
 /* {/block 'content'} */

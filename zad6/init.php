@@ -11,14 +11,13 @@ $msgs = new core\Messages();
 function &getMessages(){ global $msgs; return $msgs; }
 
 $smarty = null;
-function &getSmarty(){
+function &getSmarty() {
 	global $smarty;
-	if (!isset($smarty)){
-		require_once 'libs/Smarty/libs/Smarty.class.php'; 
+	if (!isset($smarty)) {
+		require_once 'libs/Smarty/libs/Smarty.class.php';
 		$smarty = new Smarty();
 		$smarty->assign('conf', getConf());
 		$smarty->assign('msgs', getMessages());
-		// katalogi szablonów
 		$smarty->setTemplateDir(array(
 			getConf()->root_path.'/app/views',
 			getConf()->root_path.'/app/views/templates'
@@ -36,8 +35,7 @@ function &getLoader() {
 
 require_once 'core/functions.php';
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();
+$conf->roles = isset($_SESSION['_roles']) ? unserialize($_SESSION['_roles']) : array();
 
 $action = getFromRequest('action');
