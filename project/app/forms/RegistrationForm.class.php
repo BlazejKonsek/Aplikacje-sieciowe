@@ -6,4 +6,9 @@ class RegistrationForm {
     public $pass;
     public $pass_repeat;
     public $email;
+    public $firstName;
+    public $lastName;
+    public $phoneNumber;
+    public $address;
 }
+

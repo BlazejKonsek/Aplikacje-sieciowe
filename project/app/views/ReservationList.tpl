@@ -2,7 +2,7 @@
 
 {block name=top}
 <h2>Twoje Rezerwacje</h2>
-<p>Przeglądaj i filtruj swoje rezerwacje. W przyszłości można dodać filtrowanie np. po statusie, dacie itp.</p>
+<p>Przeglądaj i filtruj swoje rezerwacje. </p>
 
 <form class="pure-form pure-form-stacked" action="{$conf->action_root}reservationList" method="get">
     <fieldset>
@@ -18,13 +18,13 @@
     </thead>
     <tbody>
     {foreach $reservations as $r}
-        <tr>
-            <td>{$r.date}</td>
-            <td>{$r.time}</td>
-            <td>{$r.people_count}</td>
-            <td>{$r.status}</td>
-        </tr>
-    {/foreach}
+  <tr>
+    <td>{$r.date}</td>          
+    <td>{$r.time}</td>         
+    <td>{$r.people_count}</td>   
+    <td>{$r.status}</td>        
+  </tr>
+{/foreach}
     </tbody>
 </table>
 {/block}

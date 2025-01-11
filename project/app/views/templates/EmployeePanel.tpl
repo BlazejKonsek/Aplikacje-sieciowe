@@ -16,7 +16,7 @@
                 <option value="">Wszystkie</option>
                 <option value="potwierdzona">Potwierdzone</option>
                 <option value="anulowana">Anulowane</option>
-                <option value="oczekujaca">Oczekujące na potwierdzenie</option>
+                <option value="oczekujaca">Oczekujące</option>
             </select>
         </div>
         <div class="pure-controls">
@@ -29,30 +29,53 @@
 <table class="pure-table pure-table-bordered top-margin">
     <thead>
         <tr>
+            <th>Data</th>
             <th>Godzina</th>
             <th>Liczba osób</th>
             <th>Status</th>
             <th>Notatki</th>
+            <th>Stolik</th>   {*! nowa kolumna - stolik *}
             <th>Opcje</th>
         </tr>
     </thead>
     <tbody>
     {foreach $reservations as $r}
         <tr>
-            <td>{$r.time}</td>
-            <td>{$r.people_count}</td>
-            <td>{$r.status}</td>
-            <td>{$r.notes|default:'-'}</td>
+            <td>{$r.reservationDate}</td>
+            <td>{$r.reservationTime}</td>
+            <td>{$r.numberOfPeople}</td>
+            <td>{$r.statusName}</td>
             <td>
-                <!-- Przycisk do wyświetlenia szczegółów (np. w modalu) -->
-                <button class="pure-button button-secondary" onclick="showDetails({$r.id})">Szczegóły</button>
-
-                <form action="{$conf->action_root}reservationStatusUpdate/{$r.id}" method="post" style="display:inline-block;">
-                    <select name="status">
-                        <option value="potwierdzona">Potwierdzona</option>
-                        <option value="anulowana">Anulowana</option>
+            </td>
+            <td>
+                {if isset($r.idTable) && $r.idTable}
+                    Stolik #{$r.idTable}
+                {else}
+                    <select name="table_id" form="resForm_{$r.idReservation}">
+                        <option value="">(bez zmiany)</option>
+                        {foreach $tables as $t}
+                            {if $t.maxCapacity >= $r.numberOfPeople}
+                                <option value="{$t.idTable}">{$t.tableName} ({$t.maxCapacity} os.)</option>
+                            {/if}
+                        {/foreach}
                     </select>
-                    <input type="text" name="notes" placeholder="Notatki" />
+                {/if}
+            </td>
+            <td>
+                <form id="resForm_{$r.idReservation}" 
+                      action="{$conf->action_root}reservationStatusUpdate/{$r.idReservation}" 
+                      method="post" class="pure-form"
+                      style="display:inline-block;">
+
+                    <select name="status">
+                        <option value="2">Potwierdzona</option>
+                        <option value="3">Anulowana</option>
+                    </select>
+
+                    <input type="text" name="notes" placeholder="Notatka" />
+
+        
+
                     <button type="submit" class="pure-button pure-button-primary">Zmień</button>
                 </form>
             </td>
@@ -63,30 +86,4 @@
 {else}
 <p>Brak rezerwacji dla wybranych kryteriów.</p>
 {/if}
-
-<!-- Modal ze szczegółami rezerwacji (tylko layout) -->
-<div id="detailsModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <span class="close" onclick="hideDetails()">&times;</span>
-        <h3>Szczegóły rezerwacji</h3>
-        <!-- Szczegółowe informacje o rezerwacji np. Imię, Nazwisko, Telefon kontaktowy -->
-        <p><strong>Rezerwujący:</strong> Jan Kowalski</p>
-        <p><strong>Kontakt:</strong> 123-456-789</p>
-        <p><strong>Dodatkowe informacje:</strong> Klient prosi o stolik przy oknie.</p>
-    </div>
-</div>
-
-{/block}
-
-{block name=bottom}
-<!-- Prosty JavaScript do obsługi modala (tylko przykładowy) -->
-<script>
-function showDetails(id) {
-    // W przyszłości AJAX po szczegóły rezerwacji.
-    document.getElementById('detailsModal').style.display = 'block';
-}
-function hideDetails() {
-    document.getElementById('detailsModal').style.display = 'none';
-}
-</script>
 {/block}

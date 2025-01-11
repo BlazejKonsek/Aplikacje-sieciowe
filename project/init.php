@@ -9,7 +9,6 @@ use core\Config;
 $_PARAMS = array();
 $conf = new Config();
 
-# podstawowe parametry
 $conf->clean_urls = true;
 $conf->action_param = 'action';
 $conf->action_script = '/ctrl.php';

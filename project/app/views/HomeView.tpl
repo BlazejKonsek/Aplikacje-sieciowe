@@ -1,6 +1,6 @@
 {extends file="templates/main.tpl"}
 
-{block name=top}
+{block name="top"}
 <h2>Witamy w systemie rezerwacji stolików w naszej restauracji!</h2>
 
 <div class="pure-g">
@@ -26,31 +26,12 @@
 
 <hr class="top-margin bottom-margin">
 
-<!-- Sekcja wyszukiwania dostępnych terminów -->
-<h3>Wyszukaj wolny stolik</h3>
-<form class="pure-form pure-form-stacked" action="{$conf->action_root}searchAvailability">
-    <fieldset>
-        <div class="pure-g">
-            <div class="pure-u-1 pure-u-md-1-4">
-                <label for="search_date">Data:</label>
-                <input type="date" id="search_date" name="search_date"/>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-4">
-                <label for="search_time">Godzina:</label>
-                <input type="time" id="search_time" name="search_time"/>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-4">
-                <label for="search_people">Liczba osób:</label>
-                <input type="number" id="search_people" name="search_people" min="1" max="20" placeholder="np. 4"/>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-4 top-margin">
-                <button type="submit" class="pure-button pure-button-primary">Szukaj</button>
-            </div>
-        </div>
-    </fieldset>
-</form>
+<h3>Rezerwacja stolika</h3>
+<p>Aby wyszukać dostępne stoliki, przejdź do formularza wyszukiwania:</p>
+<a href="{$conf->action_root}searchAvailabilityShow" class="pure-button pure-button-primary">
+    Przejdź do wyszukiwania stolika
+</a>
 
-<!-- Sekcja przykładowych dań - oferta -->
 <hr class="top-margin bottom-margin">
 <h3>Nasze specjały</h3>
 <div class="pure-g">
@@ -77,7 +58,6 @@
     </div>
 </div>
 
-<!-- Sekcja informacji dodatkowych -->
 <hr class="top-margin bottom-margin">
 <h3>Informacje dla gości</h3>
 <ul>

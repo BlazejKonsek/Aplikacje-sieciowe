@@ -3,7 +3,9 @@ namespace app\forms;
 
 class ReservationForm {
     public $date;
-    public $time;
-    public $people_count;
-    // w przyszłości: uwagi, preferencje, itp.
+    public $timeslot;  
+    public $people_count;  
+    public $noteText;   
+
+  
 }

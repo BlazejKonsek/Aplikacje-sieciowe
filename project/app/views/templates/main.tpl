@@ -12,10 +12,7 @@
     <a href="{$conf->action_root}home" class="pure-menu-heading pure-menu-link">Strona główna</a>
 
     {if count($conf->roles)>0}
-        {*
-          Wyświetlanie sekcji dla użytkownika tylko, gdy user jest zalogowany z rolą user
-          i nie jest jednocześnie employee ani admin.
-        *}
+        
         {if isset($conf->roles.user) && $conf->roles.user && (not isset($conf->roles.employee) || !$conf->roles.employee) && (not isset($conf->roles.admin) || !$conf->roles.admin)}
             <a href="{$conf->action_root}reservationList" class="pure-menu-heading pure-menu-link">Moje rezerwacje</a>
             <a href="{$conf->action_root}reservationShow" class="pure-menu-heading pure-menu-link">Nowa rezerwacja</a>

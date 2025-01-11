@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2024-12-07 17:18:24
+/* Smarty version 4.5.5, created on 2025-01-11 17:38:16
   from 'C:\xampp\htdocs\project\app\views\HomeView.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
-  'version' => '3.1.33',
-  'unifunc' => 'content_675475501b9783_22186553',
+  'version' => '4.5.5',
+  'unifunc' => 'content_67829e784589f8_03417962',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bfca56b665b4ca2c3e622e20263f4641074b9917' => 
     array (
       0 => 'C:\\xampp\\htdocs\\project\\app\\views\\HomeView.tpl',
-      1 => 1733588300,
+      1 => 1736613079,
       2 => 'file',
     ),
   ),
@@ -20,25 +20,25 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_675475501b9783_22186553 (Smarty_Internal_Template $_smarty_tpl) {
+function content_67829e784589f8_03417962 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_10798352906754755019f3c6_02321949', 'top');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_78665155667829e78453974_57701705', "top");
 ?>
 
 <?php $_smarty_tpl->inheritance->endChild($_smarty_tpl, "templates/main.tpl");
 }
-/* {block 'top'} */
-class Block_10798352906754755019f3c6_02321949 extends Smarty_Internal_Block
+/* {block "top"} */
+class Block_78665155667829e78453974_57701705 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'top' => 
   array (
-    0 => 'Block_10798352906754755019f3c6_02321949',
+    0 => 'Block_78665155667829e78453974_57701705',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -69,32 +69,13 @@ public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
 
 <hr class="top-margin bottom-margin">
 
-<!-- Sekcja wyszukiwania dostępnych terminów -->
-<h3>Wyszukaj wolny stolik</h3>
-<form class="pure-form pure-form-stacked" action="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_root;?>
-searchAvailability">
-    <fieldset>
-        <div class="pure-g">
-            <div class="pure-u-1 pure-u-md-1-4">
-                <label for="search_date">Data:</label>
-                <input type="date" id="search_date" name="search_date"/>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-4">
-                <label for="search_time">Godzina:</label>
-                <input type="time" id="search_time" name="search_time"/>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-4">
-                <label for="search_people">Liczba osób:</label>
-                <input type="number" id="search_people" name="search_people" min="1" max="20" placeholder="np. 4"/>
-            </div>
-            <div class="pure-u-1 pure-u-md-1-4 top-margin">
-                <button type="submit" class="pure-button pure-button-primary">Szukaj</button>
-            </div>
-        </div>
-    </fieldset>
-</form>
+<h3>Rezerwacja stolika</h3>
+<p>Aby wyszukać dostępne stoliki, przejdź do formularza wyszukiwania:</p>
+<a href="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_root;?>
+searchAvailabilityShow" class="pure-button pure-button-primary">
+    Przejdź do wyszukiwania stolika
+</a>
 
-<!-- Sekcja przykładowych dań - oferta -->
 <hr class="top-margin bottom-margin">
 <h3>Nasze specjały</h3>
 <div class="pure-g">
@@ -124,7 +105,6 @@ searchAvailability">
     </div>
 </div>
 
-<!-- Sekcja informacji dodatkowych -->
 <hr class="top-margin bottom-margin">
 <h3>Informacje dla gości</h3>
 <ul>
@@ -135,5 +115,5 @@ searchAvailability">
 <?php
 }
 }
-/* {/block 'top'} */
+/* {/block "top"} */
 }

@@ -1,25 +1,53 @@
 {extends file="templates/main.tpl"}
 
 {block name=top}
-<h2>Nowa Rezerwacja</h2>
-<p>Wybierz datę, godzinę i liczbę osób do rezerwacji stolika. W przyszłości formularz będzie walidowany (np. brak rezerwacji wstecz).</p>
+<h2>Rejestracja nowego użytkownika</h2>
 
-<form action="{$conf->action_root}reservationSave" method="post" class="pure-form pure-form-aligned">
+<form action="{$conf->action_root}registration" method="post" class="pure-form pure-form-aligned">
     <fieldset>
+
         <div class="pure-control-group">
-            <label for="id_date">Data:</label>
-            <input type="date" id="id_date" name="date" value="{$form->date}" />
+            <label for="id_login">Login:</label>
+            <input type="text" id="id_login" name="login" value="{$form->login}" required/>
         </div>
+
         <div class="pure-control-group">
-            <label for="id_time">Godzina:</label>
-            <input type="time" id="id_time" name="time" value="{$form->time}" />
+            <label for="id_pass">Hasło:</label>
+            <input type="password" id="id_pass" name="pass" required />
         </div>
+
         <div class="pure-control-group">
-            <label for="id_people_count">Liczba osób:</label>
-            <input type="number" id="id_people_count" name="people_count" value="{$form->people_count}" min="1" />
+            <label for="id_pass_repeat">Powtórz hasło:</label>
+            <input type="password" id="id_pass_repeat" name="pass_repeat" required />
         </div>
+
+        <div class="pure-control-group">
+            <label for="id_email">E-mail:</label>
+            <input type="email" id="id_email" name="email" value="{$form->email}"/>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="id_fname">Imię:</label>
+            <input type="text" id="id_fname" name="firstName" value="{$form->firstName}"/>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="id_lname">Nazwisko:</label>
+            <input type="text" id="id_lname" name="lastName" value="{$form->lastName}"/>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="id_phone">Telefon:</label>
+            <input type="text" id="id_phone" name="phoneNumber" value="{$form->phoneNumber}"/>
+        </div>
+
+        <div class="pure-control-group">
+            <label for="id_address">Adres:</label>
+            <input type="text" id="id_address" name="address" value="{$form->address}"/>
+        </div>
+
         <div class="pure-controls">
-            <input type="submit" value="Zarezerwuj" class="pure-button pure-button-primary"/>
+            <input type="submit" value="Zarejestruj" class="pure-button pure-button-primary" />
         </div>
     </fieldset>
 </form>

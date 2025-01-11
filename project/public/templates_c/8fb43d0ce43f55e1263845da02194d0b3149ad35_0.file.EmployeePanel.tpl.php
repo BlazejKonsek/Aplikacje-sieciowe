@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2024-12-07 18:11:58
+/* Smarty version 4.5.5, created on 2025-01-11 17:11:12
   from 'C:\xampp\htdocs\project\app\views\templates\EmployeePanel.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
-  'version' => '3.1.33',
-  'unifunc' => 'content_675481de92e6f3_50991794',
+  'version' => '4.5.5',
+  'unifunc' => 'content_67829820b26693_58748149',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8fb43d0ce43f55e1263845da02194d0b3149ad35' => 
     array (
       0 => 'C:\\xampp\\htdocs\\project\\app\\views\\templates\\EmployeePanel.tpl',
-      1 => 1733591436,
+      1 => 1736611652,
       2 => 'file',
     ),
   ),
@@ -20,33 +20,29 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_675481de92e6f3_50991794 (Smarty_Internal_Template $_smarty_tpl) {
+function content_67829820b26693_58748149 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_834440318675481de918e30_52263511', 'top');
-?>
-
-
-<?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_621808957675481de92df90_52024289', 'bottom');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_199975323267829820b157c8_06910468', 'top');
 ?>
 
 <?php $_smarty_tpl->inheritance->endChild($_smarty_tpl, "main.tpl");
 }
 /* {block 'top'} */
-class Block_834440318675481de918e30_52263511 extends Smarty_Internal_Block
+class Block_199975323267829820b157c8_06910468 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'top' => 
   array (
-    0 => 'Block_834440318675481de918e30_52263511',
+    0 => 'Block_199975323267829820b157c8_06910468',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\project\\lib\\smarty\\plugins\\modifier.count.php','function'=>'smarty_modifier_count',),));
 ?>
 
 <h2>Panel Pracownika</h2>
@@ -57,7 +53,7 @@ employeePanel" method="get">
     <fieldset>
         <div class="pure-control-group">
             <label for="day">Wybierz dzień:</label>
-            <input type="date" id="day" name="day" value="<?php echo (($tmp = @$_smarty_tpl->tpl_vars['day']->value)===null||$tmp==='' ? '' : $tmp);?>
+            <input type="date" id="day" name="day" value="<?php echo (($tmp = $_smarty_tpl->tpl_vars['day']->value ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 " />
         </div>
         <div class="pure-control-group">
@@ -66,7 +62,7 @@ employeePanel" method="get">
                 <option value="">Wszystkie</option>
                 <option value="potwierdzona">Potwierdzone</option>
                 <option value="anulowana">Anulowane</option>
-                <option value="oczekujaca">Oczekujące na potwierdzenie</option>
+                <option value="oczekujaca">Oczekujące</option>
             </select>
         </div>
         <div class="pure-controls">
@@ -75,101 +71,99 @@ employeePanel" method="get">
     </fieldset>
 </form>
 
-<?php if (count($_smarty_tpl->tpl_vars['reservations']->value) > 0) {?>
+<?php if (smarty_modifier_count($_smarty_tpl->tpl_vars['reservations']->value) > 0) {?>
 <table class="pure-table pure-table-bordered top-margin">
     <thead>
         <tr>
+            <th>Data</th>
             <th>Godzina</th>
             <th>Liczba osób</th>
             <th>Status</th>
             <th>Notatki</th>
-            <th>Opcje</th>
+            <th>Stolik</th>               <th>Opcje</th>
         </tr>
     </thead>
     <tbody>
     <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['reservations']->value, 'r');
-if ($_from !== null) {
-foreach ($_from as $_smarty_tpl->tpl_vars['r']->value) {
+$_smarty_tpl->tpl_vars['r']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['r']->value) {
+$_smarty_tpl->tpl_vars['r']->do_else = false;
 ?>
         <tr>
-            <td><?php echo $_smarty_tpl->tpl_vars['r']->value['time'];?>
+            <td><?php echo $_smarty_tpl->tpl_vars['r']->value['reservationDate'];?>
 </td>
-            <td><?php echo $_smarty_tpl->tpl_vars['r']->value['people_count'];?>
+            <td><?php echo $_smarty_tpl->tpl_vars['r']->value['reservationTime'];?>
 </td>
-            <td><?php echo $_smarty_tpl->tpl_vars['r']->value['status'];?>
+            <td><?php echo $_smarty_tpl->tpl_vars['r']->value['numberOfPeople'];?>
 </td>
-            <td><?php echo (($tmp = @$_smarty_tpl->tpl_vars['r']->value['notes'])===null||$tmp==='' ? '-' : $tmp);?>
+            <td><?php echo $_smarty_tpl->tpl_vars['r']->value['statusName'];?>
 </td>
             <td>
-                <!-- Przycisk do wyświetlenia szczegółów (np. w modalu) -->
-                <button class="pure-button button-secondary" onclick="showDetails(<?php echo $_smarty_tpl->tpl_vars['r']->value['id'];?>
-)">Szczegóły</button>
+                <!-- wyświetl notatki - w prostym wariancie brak 
+                     lub zrób AJAX / dodatkowe zapytanie itp. -->
+            </td>
+            <td>
+                <?php if ((isset($_smarty_tpl->tpl_vars['r']->value['idTable'])) && $_smarty_tpl->tpl_vars['r']->value['idTable']) {?>
+                    <!-- Gdy stolik jest już przypisany, np. wyświetl tekst -->
+                    Stolik #<?php echo $_smarty_tpl->tpl_vars['r']->value['idTable'];?>
 
-                <form action="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_root;?>
-reservationStatusUpdate/<?php echo $_smarty_tpl->tpl_vars['r']->value['id'];?>
-" method="post" style="display:inline-block;">
-                    <select name="status">
-                        <option value="potwierdzona">Potwierdzona</option>
-                        <option value="anulowana">Anulowana</option>
+                <?php } else { ?>
+                    <!-- Gdy brak przypisanego stolika (NULL) -->
+                    <select name="table_id" form="resForm_<?php echo $_smarty_tpl->tpl_vars['r']->value['idReservation'];?>
+">
+                        <option value="">(bez zmiany)</option>
+                        <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['tables']->value, 't');
+$_smarty_tpl->tpl_vars['t']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['t']->value) {
+$_smarty_tpl->tpl_vars['t']->do_else = false;
+?>
+                            <?php if ($_smarty_tpl->tpl_vars['t']->value['maxCapacity'] >= $_smarty_tpl->tpl_vars['r']->value['numberOfPeople']) {?>
+                                <option value="<?php echo $_smarty_tpl->tpl_vars['t']->value['idTable'];?>
+"><?php echo $_smarty_tpl->tpl_vars['t']->value['tableName'];?>
+ (<?php echo $_smarty_tpl->tpl_vars['t']->value['maxCapacity'];?>
+ os.)</option>
+                            <?php }?>
+                        <?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                     </select>
-                    <input type="text" name="notes" placeholder="Notatki" />
+                <?php }?>
+            </td>
+            <td>
+                <!-- Możesz użyć jednego formularza do wysłania i statusu, i stolika, i notatek -->
+                <form id="resForm_<?php echo $_smarty_tpl->tpl_vars['r']->value['idReservation'];?>
+" 
+                      action="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_root;?>
+reservationStatusUpdate/<?php echo $_smarty_tpl->tpl_vars['r']->value['idReservation'];?>
+" 
+                      method="post" class="pure-form"
+                      style="display:inline-block;">
+
+                    <!-- Zmiana statusu -->
+                    <select name="status">
+                        <option value="2">Potwierdzona</option>
+                        <option value="3">Anulowana</option>
+                    </select>
+
+                    <!-- Notatka -->
+                    <input type="text" name="notes" placeholder="Notatka" />
+
+                    
                     <button type="submit" class="pure-button pure-button-primary">Zmień</button>
                 </form>
             </td>
         </tr>
     <?php
 }
-}
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
     </tbody>
 </table>
 <?php } else { ?>
 <p>Brak rezerwacji dla wybranych kryteriów.</p>
-<?php }?>
-
-<!-- Modal ze szczegółami rezerwacji (tylko layout) -->
-<div id="detailsModal" class="modal" style="display:none;">
-    <div class="modal-content">
-        <span class="close" onclick="hideDetails()">&times;</span>
-        <h3>Szczegóły rezerwacji</h3>
-        <!-- Szczegółowe informacje o rezerwacji np. Imię, Nazwisko, Telefon kontaktowy -->
-        <p><strong>Rezerwujący:</strong> Jan Kowalski</p>
-        <p><strong>Kontakt:</strong> 123-456-789</p>
-        <p><strong>Dodatkowe informacje:</strong> Klient prosi o stolik przy oknie.</p>
-    </div>
-</div>
-
-<?php
+<?php }
 }
 }
 /* {/block 'top'} */
-/* {block 'bottom'} */
-class Block_621808957675481de92df90_52024289 extends Smarty_Internal_Block
-{
-public $subBlocks = array (
-  'bottom' => 
-  array (
-    0 => 'Block_621808957675481de92df90_52024289',
-  ),
-);
-public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
-?>
-
-<!-- Prosty JavaScript do obsługi modala (tylko przykładowy) -->
-<?php echo '<script'; ?>
->
-function showDetails(id) {
-    // W przyszłości AJAX po szczegóły rezerwacji.
-    document.getElementById('detailsModal').style.display = 'block';
-}
-function hideDetails() {
-    document.getElementById('detailsModal').style.display = 'none';
-}
-<?php echo '</script'; ?>
->
-<?php
-}
-}
-/* {/block 'bottom'} */
 }

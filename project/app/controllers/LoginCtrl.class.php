@@ -16,26 +16,25 @@ class LoginCtrl {
 
     public function validate() {
         $this->form->login = ParamUtils::getFromRequest('login');
-        $this->form->pass = ParamUtils::getFromRequest('pass');
+        $this->form->pass  = ParamUtils::getFromRequest('pass');
 
-        // sprawdzenie czy podano dane
         if (!isset($this->form->login)) {
-            // jeszcze nie podano danych (np. dopiero weszliśmy na stronę logowania)
-            return false;
+            return false; 
         }
-
         if (empty($this->form->login)) {
             Utils::addErrorMessage('Nie podano loginu');
         }
         if (empty($this->form->pass)) {
             Utils::addErrorMessage('Nie podano hasła');
         }
-
         if (App::getMessages()->isError()) return false;
 
-        // sprawdzenie w bazie czy użytkownik istnieje
         try {
-            $user = App::getDB()->get("users", ["id","login","password","role"], [
+            $user = App::getDB()->get("users", [
+                "idUser",
+                "login",
+                "password"
+            ], [
                 "login" => $this->form->login
             ]);
         } catch (\PDOException $e) {
@@ -47,23 +46,26 @@ class LoginCtrl {
         }
 
         if (!$user) {
-            Utils::addErrorMessage("Niepoprawny login lub hasło");
+            Utils::addErrorMessage("Niepoprawny login lub hasło (brak takiego loginu)");
             return false;
         }
 
-        // weryfikacja hasła
         if (password_verify($this->form->pass, $user['password'])) {
-            // hasło poprawne
-            // Nadajemy rolę 'user' każdemu zalogowanemu
-            RoleUtils::addRole('user');
+            $_SESSION['user_id'] = $user['idUser'];  
 
-            // Jeśli user ma rolę admin lub employee, to również dodajemy
-            // (zakładamy, że kolumna 'role' w tabeli users zawiera np. 'admin', 'employee' lub null)
-            if ($user['role'] === 'admin') {
-                RoleUtils::addRole('admin');
-            }
-            if ($user['role'] === 'employee') {
-                RoleUtils::addRole('employee');
+            $_SESSION['_amelia_roles'] = serialize([]);
+            App::getConf()->roles = [];
+
+            $userRoles = App::getDB()->select("user_roles", ["idRole"], [
+                "idUser" => $user['idUser']
+            ]);
+            foreach ($userRoles as $ur) {
+                $roleRow = App::getDB()->get("roles", ["roleName"], [
+                    "idRole" => $ur["idRole"]
+                ]);
+                if ($roleRow && isset($roleRow["roleName"])) {
+                    RoleUtils::addRole($roleRow["roleName"]);
+                }
             }
 
             Utils::addInfoMessage("Zalogowano poprawnie!");
@@ -81,10 +83,8 @@ class LoginCtrl {
 
     public function action_login() {
         if ($this->validate()) {
-            // jeżeli zalogowano to przekieruj do listy rezerwacji lub na stronę główną
             App::getRouter()->redirectTo("home");
         } else {
-            // pozostań na stronie logowania
             App::getSmarty()->assign('form', $this->form);
             App::getSmarty()->display("LoginView.tpl");
         }
