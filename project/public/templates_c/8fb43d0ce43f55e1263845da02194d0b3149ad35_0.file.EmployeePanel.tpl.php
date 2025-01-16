@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.5, created on 2025-01-11 17:11:12
+/* Smarty version 4.5.5, created on 2025-01-11 17:41:47
   from 'C:\xampp\htdocs\project\app\views\templates\EmployeePanel.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.5',
-  'unifunc' => 'content_67829820b26693_58748149',
+  'unifunc' => 'content_67829f4bda3f41_35010026',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8fb43d0ce43f55e1263845da02194d0b3149ad35' => 
     array (
       0 => 'C:\\xampp\\htdocs\\project\\app\\views\\templates\\EmployeePanel.tpl',
-      1 => 1736611652,
+      1 => 1736613130,
       2 => 'file',
     ),
   ),
@@ -20,25 +20,25 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_67829820b26693_58748149 (Smarty_Internal_Template $_smarty_tpl) {
+function content_67829f4bda3f41_35010026 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_199975323267829820b157c8_06910468', 'top');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_7684140567829f4bd943c1_22360193', 'top');
 ?>
 
 <?php $_smarty_tpl->inheritance->endChild($_smarty_tpl, "main.tpl");
 }
 /* {block 'top'} */
-class Block_199975323267829820b157c8_06910468 extends Smarty_Internal_Block
+class Block_7684140567829f4bd943c1_22360193 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'top' => 
   array (
-    0 => 'Block_199975323267829820b157c8_06910468',
+    0 => 'Block_7684140567829f4bd943c1_22360193',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -100,16 +100,12 @@ $_smarty_tpl->tpl_vars['r']->do_else = false;
             <td><?php echo $_smarty_tpl->tpl_vars['r']->value['statusName'];?>
 </td>
             <td>
-                <!-- wyświetl notatki - w prostym wariancie brak 
-                     lub zrób AJAX / dodatkowe zapytanie itp. -->
             </td>
             <td>
                 <?php if ((isset($_smarty_tpl->tpl_vars['r']->value['idTable'])) && $_smarty_tpl->tpl_vars['r']->value['idTable']) {?>
-                    <!-- Gdy stolik jest już przypisany, np. wyświetl tekst -->
                     Stolik #<?php echo $_smarty_tpl->tpl_vars['r']->value['idTable'];?>
 
                 <?php } else { ?>
-                    <!-- Gdy brak przypisanego stolika (NULL) -->
                     <select name="table_id" form="resForm_<?php echo $_smarty_tpl->tpl_vars['r']->value['idReservation'];?>
 ">
                         <option value="">(bez zmiany)</option>
@@ -132,7 +128,6 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                 <?php }?>
             </td>
             <td>
-                <!-- Możesz użyć jednego formularza do wysłania i statusu, i stolika, i notatek -->
                 <form id="resForm_<?php echo $_smarty_tpl->tpl_vars['r']->value['idReservation'];?>
 " 
                       action="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_root;?>
@@ -141,16 +136,15 @@ reservationStatusUpdate/<?php echo $_smarty_tpl->tpl_vars['r']->value['idReserva
                       method="post" class="pure-form"
                       style="display:inline-block;">
 
-                    <!-- Zmiana statusu -->
                     <select name="status">
                         <option value="2">Potwierdzona</option>
                         <option value="3">Anulowana</option>
                     </select>
 
-                    <!-- Notatka -->
                     <input type="text" name="notes" placeholder="Notatka" />
 
-                    
+        
+
                     <button type="submit" class="pure-button pure-button-primary">Zmień</button>
                 </form>
             </td>

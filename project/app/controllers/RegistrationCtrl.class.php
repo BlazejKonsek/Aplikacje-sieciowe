@@ -20,7 +20,6 @@ class RegistrationCtrl {
     }
 
     public function action_registration(){
-        // 1. Pobranie danych z formularza
         $this->form->login        = ParamUtils::getFromRequest('login');
         $this->form->pass         = ParamUtils::getFromRequest('pass');
         $this->form->pass_repeat  = ParamUtils::getFromRequest('pass_repeat');
@@ -63,7 +62,6 @@ class RegistrationCtrl {
         }
 
         if (App::getMessages()->isError()) {
-            // Wróć do formularza
             App::getSmarty()->assign('form', $this->form);
             App::getSmarty()->display("RegistrationView.tpl");
             return;

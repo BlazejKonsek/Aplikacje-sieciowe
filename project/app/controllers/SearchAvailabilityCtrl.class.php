@@ -27,7 +27,6 @@ class SearchAvailabilityCtrl
         list($startHour, $endHour) = explode('-', $searchTimeSlot);
 
         try {
-            // a) Pobierz stoliki, które mają co najmniej $searchPeople miejsc i są aktywne:
             $tables = App::getDB()->select('tables', [
                 'idTable',
                 'tableName',

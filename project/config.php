@@ -7,7 +7,7 @@ $conf->app_root = '/project/public';
 
 $conf->db_type = 'mysql';
 $conf->db_server = 'localhost';
-$conf->db_name = 'restaurant_reservations'; // <-- ważne!
+$conf->db_name = 'restaurant_reservations'; 
 $conf->db_user = 'root';
 $conf->db_pass = '';
 $conf->db_charset = 'utf8';

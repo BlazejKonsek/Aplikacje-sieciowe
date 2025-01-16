@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.5, created on 2025-01-11 15:29:54
+/* Smarty version 4.5.5, created on 2025-01-15 20:14:34
   from 'C:\xampp\htdocs\project\app\views\UserCreateForm.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.5',
-  'unifunc' => 'content_67828062187037_55569676',
+  'unifunc' => 'content_6788091a8c0e30_03356969',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5e6a7c3758bcafca148b805abbd1c43b099553be' => 
     array (
       0 => 'C:\\xampp\\htdocs\\project\\app\\views\\UserCreateForm.tpl',
-      1 => 1736592405,
+      1 => 1736613006,
       2 => 'file',
     ),
   ),
@@ -20,25 +20,25 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_67828062187037_55569676 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6788091a8c0e30_03356969 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_20246940246782806217b699_00009143', 'top');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_17432816686788091a8b4c97_95450570', 'top');
 ?>
 
 <?php $_smarty_tpl->inheritance->endChild($_smarty_tpl, "templates/main.tpl");
 }
 /* {block 'top'} */
-class Block_20246940246782806217b699_00009143 extends Smarty_Internal_Block
+class Block_17432816686788091a8b4c97_95450570 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'top' => 
   array (
-    0 => 'Block_20246940246782806217b699_00009143',
+    0 => 'Block_17432816686788091a8b4c97_95450570',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -96,7 +96,6 @@ createUser" method="post" class="pure-form pure-form-stacked">
 "/>
         </div>
 
-        <!-- Wybór roli -->
         <div class="pure-control-group">
             <label for="id_role">Rola:</label>
             <select name="role" id="id_role">

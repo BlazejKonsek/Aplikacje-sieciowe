@@ -58,7 +58,7 @@ class ReservationCtrl {
             "reservationDate"  => $this->form->date,
             "reservationTime"  => $reservationTime,  
             "numberOfPeople"   => $this->form->people_count,
-            "idStatus"         => 1,  // 1=Oczekująca
+            "idStatus"         => 1, 
             "dateCreated"      => date("Y-m-d H:i:s"),
             "dateModified"     => date("Y-m-d H:i:s"),
             "createdBy"        => $userId,
@@ -94,31 +94,41 @@ class ReservationCtrl {
 }
 
     public function action_reservationList(){
-        $userId = $_SESSION['user_id'] ?? null;
-        if (!$userId) {
-            Utils::addErrorMessage("Musisz być zalogowany, aby zobaczyć swoje rezerwacje.");
-            App::getRouter()->redirectTo("loginShow");
-            return;
-        }
-
-        try {
-            $reservations = App::getDB()->select("reservations", [
-    "[><]reservation_statuses" => ["idStatus" => "idStatus"]
-], [
-    "reservations.reservationDate(date)",
-    "reservations.reservationTime(time)",
-    "reservations.numberOfPeople(people_count)",
-    "reservation_statuses.statusName(status)"
-], [
-    "reservations.idUser" => $userId,
-    "ORDER" => ["reservationDate" => "ASC", "reservationTime" => "ASC"]
-]);
-        } catch (\PDOException $e) {
-            Utils::addErrorMessage("Błąd pobierania rezerwacji: ".$e->getMessage());
-            $reservations = [];
-        }
-
-        App::getSmarty()->assign('reservations', $reservations);
-        App::getSmarty()->display("ReservationList.tpl");
+         $userId = $_SESSION['user_id'] ?? null;
+    if (!$userId) {
+        Utils::addErrorMessage("Musisz być zalogowany, aby zobaczyć swoje rezerwacje.");
+        App::getRouter()->redirectTo("loginShow");
+        return;
     }
+
+    $statusFilter = ParamUtils::getFromRequest('sf_status');
+
+    $where = [
+        "reservations.idUser" => $userId
+    ];
+
+    if (!empty($statusFilter)) {
+        $where["reservation_statuses.statusName"] = $statusFilter;
+    }
+
+    $where["ORDER"] = ["reservationDate" => "ASC", "reservationTime" => "ASC"];
+
+    try {
+        $reservations = App::getDB()->select("reservations", [
+            "[><]reservation_statuses" => ["idStatus" => "idStatus"]
+        ], [
+            "reservations.reservationDate(date)",
+            "reservations.reservationTime(time)",
+            "reservations.numberOfPeople(people_count)",
+            "reservation_statuses.statusName(status)"
+        ], $where);
+    } catch (\PDOException $e) {
+        Utils::addErrorMessage("Błąd pobierania rezerwacji: ".$e->getMessage());
+        $reservations = [];
+    }
+
+    App::getSmarty()->assign('reservations', $reservations);
+    App::getSmarty()->assign('sf_status', $statusFilter); 
+    App::getSmarty()->display("ReservationList.tpl");
+}
 }

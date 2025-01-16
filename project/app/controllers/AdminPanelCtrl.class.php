@@ -179,42 +179,37 @@ class AdminPanelCtrl {
     }
 
     public function action_createUser() {
-        $this->userForm->login        = ParamUtils::getFromRequest('login');
-        $this->userForm->pass         = ParamUtils::getFromRequest('pass');
-        $this->userForm->pass_repeat  = ParamUtils::getFromRequest('pass_repeat');
-        $this->userForm->email        = ParamUtils::getFromRequest('email');
-        $this->userForm->firstName    = ParamUtils::getFromRequest('firstName');
-        $this->userForm->lastName     = ParamUtils::getFromRequest('lastName');
-        $this->userForm->phoneNumber  = ParamUtils::getFromRequest('phoneNumber');
-        $this->userForm->address      = ParamUtils::getFromRequest('address');
-        $this->userForm->role         = ParamUtils::getFromRequest('role'); // id roli
+       $this->userForm->login        = ParamUtils::getFromRequest('login');
+    $this->userForm->pass         = ParamUtils::getFromRequest('pass');
+    $this->userForm->pass_repeat  = ParamUtils::getFromRequest('pass_repeat');
+    $this->userForm->email        = ParamUtils::getFromRequest('email');
+    $this->userForm->firstName    = ParamUtils::getFromRequest('firstName');
+    $this->userForm->lastName     = ParamUtils::getFromRequest('lastName');
+    $this->userForm->phoneNumber  = ParamUtils::getFromRequest('phoneNumber');
+    $this->userForm->address      = ParamUtils::getFromRequest('address');
+    $this->userForm->role         = ParamUtils::getFromRequest('role'); 
+    
+    if (empty($this->userForm->login)) {
+        Utils::addErrorMessage("Login nie może być pusty");
+    }
+    if (empty($this->userForm->pass)) {
+        Utils::addErrorMessage("Hasło nie może być puste");
+    } elseif ($this->userForm->pass !== $this->userForm->pass_repeat) {
+        Utils::addErrorMessage("Podane hasła nie są takie same!");
+    }
 
-        if (empty($this->userForm->login)) {
-            Utils::addErrorMessage("Login nie może być pusty");
+    if (empty($this->userForm->phoneNumber)) {
+        Utils::addErrorMessage("Numer telefonu nie może być pusty!");
+    } else {
+        if (!preg_match('/^[0-9\s+]+$/', $this->userForm->phoneNumber)) {
+            Utils::addErrorMessage("Numer telefonu może zawierać tylko cyfry, spacje oraz znak plusa.");
         }
-        if (empty($this->userForm->pass)) {
-            Utils::addErrorMessage("Hasło nie może być puste");
-        } elseif ($this->userForm->pass !== $this->userForm->pass_repeat) {
-            Utils::addErrorMessage("Podane hasła nie są takie same!");
-        }
+    }
 
-        if (App::getMessages()->isError()) {
-            $this->action_createUserShow();
-            return;
-        }
-
-        try {
-            $count = App::getDB()->count("users", ["login" => $this->userForm->login]);
-            if ($count > 0) {
-                Utils::addErrorMessage("Taki login już istnieje w bazie!");
-            }
-        } catch (\PDOException $e){
-            Utils::addErrorMessage("Błąd bazy: ".$e->getMessage());
-        }
-        if (App::getMessages()->isError()) {
-            $this->action_createUserShow();
-            return;
-        }
+    if (App::getMessages()->isError()) {
+        $this->action_createUserShow();
+        return;
+    }
 
         try {
             $adminId = $_SESSION['user_id'] ?? null;
