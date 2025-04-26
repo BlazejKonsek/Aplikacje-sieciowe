@@ -93,8 +93,8 @@ class ReservationCtrl {
     }
 }
 
-    public function action_reservationList(){
-         $userId = $_SESSION['user_id'] ?? null;
+ public function action_reservationList() {
+    $userId = $_SESSION['user_id'] ?? null;
     if (!$userId) {
         Utils::addErrorMessage("Musisz być zalogowany, aby zobaczyć swoje rezerwacje.");
         App::getRouter()->redirectTo("loginShow");
@@ -103,32 +103,63 @@ class ReservationCtrl {
 
     $statusFilter = ParamUtils::getFromRequest('sf_status');
 
-    $where = [
-        "reservations.idUser" => $userId
-    ];
+    // określamy stronę (domyślnie 1)
+    $currentPage = ParamUtils::getFromRequest('page');
+    if (empty($currentPage) || $currentPage < 1) {
+        $currentPage = 1;
+    }
+    $limit  = 5;
+    $offset = ($currentPage - 1) * $limit;
 
+    // przygotowujemy warunki filtrowania
+    $where = ["reservations.idUser" => $userId];
     if (!empty($statusFilter)) {
         $where["reservation_statuses.statusName"] = $statusFilter;
     }
 
-    $where["ORDER"] = ["reservationDate" => "ASC", "reservationTime" => "ASC"];
-
+    // liczymy ile jest łącznie rekordów
     try {
-        $reservations = App::getDB()->select("reservations", [
-            "[><]reservation_statuses" => ["idStatus" => "idStatus"]
-        ], [
-            "reservations.reservationDate(date)",
-            "reservations.reservationTime(time)",
-            "reservations.numberOfPeople(people_count)",
-            "reservation_statuses.statusName(status)"
-        ], $where);
+        $totalCount = App::getDB()->count(
+            "reservations",
+            ["[>]reservation_statuses" => ["idStatus" => "idStatus"]],
+            "*",
+            $where
+        );
+    } catch (\PDOException $e) {
+        Utils::addErrorMessage("Błąd liczenia rezerwacji: ".$e->getMessage());
+        $totalCount = 0;
+    }
+
+    // obliczamy ile jest stron
+    $totalPages = ($totalCount > 0) ? ceil($totalCount / $limit) : 1;
+
+    // pobieramy tylko te z bieżącej strony
+    $where["LIMIT"] = [$offset, $limit];
+    $where["ORDER"] = ["reservationDate" => "ASC", "reservationTime" => "ASC"];
+    try {
+        $reservations = App::getDB()->select(
+            "reservations",
+            ["[>]reservation_statuses" => ["idStatus" => "idStatus"]],
+            [
+                "reservations.reservationDate(date)",
+                "reservations.reservationTime(time)",
+                "reservations.numberOfPeople(people_count)",
+                "reservation_statuses.statusName(status)"
+            ],
+            $where
+        );
     } catch (\PDOException $e) {
         Utils::addErrorMessage("Błąd pobierania rezerwacji: ".$e->getMessage());
         $reservations = [];
     }
 
-    App::getSmarty()->assign('reservations', $reservations);
-    App::getSmarty()->assign('sf_status', $statusFilter); 
+    // *** TU DODAJEMY PRZYPISANIA DLA PAGINACJI ***
+    App::getSmarty()->assign('reservations',   $reservations);
+    App::getSmarty()->assign('sf_status',      $statusFilter);
+    App::getSmarty()->assign('current_page',   $currentPage);
+    App::getSmarty()->assign('total_pages',    $totalPages);
+
+    // i wyświetlamy szablon
     App::getSmarty()->display("ReservationList.tpl");
 }
 }

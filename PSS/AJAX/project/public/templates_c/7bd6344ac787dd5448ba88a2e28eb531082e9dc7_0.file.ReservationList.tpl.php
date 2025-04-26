@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.5.5, created on 2025-01-15 20:46:28
+/* Smarty version 4.5.5, created on 2025-04-26 12:16:59
   from 'C:\xampp\htdocs\project\app\views\ReservationList.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.5.5',
-  'unifunc' => 'content_678810941f7574_64625035',
+  'unifunc' => 'content_680cb29b4f1af3_36377817',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7bd6344ac787dd5448ba88a2e28eb531082e9dc7' => 
     array (
       0 => 'C:\\xampp\\htdocs\\project\\app\\views\\ReservationList.tpl',
-      1 => 1736970385,
+      1 => 1745662616,
       2 => 'file',
     ),
   ),
@@ -20,25 +20,25 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_678810941f7574_64625035 (Smarty_Internal_Template $_smarty_tpl) {
+function content_680cb29b4f1af3_36377817 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
 
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_1691388891678810941edfb0_11783129', 'top');
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_1466580977680cb29b4e01a3_06532192', 'top');
 ?>
 
 <?php $_smarty_tpl->inheritance->endChild($_smarty_tpl, "templates/main.tpl");
 }
 /* {block 'top'} */
-class Block_1691388891678810941edfb0_11783129 extends Smarty_Internal_Block
+class Block_1466580977680cb29b4e01a3_06532192 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'top' => 
   array (
-    0 => 'Block_1691388891678810941edfb0_11783129',
+    0 => 'Block_1466580977680cb29b4e01a3_06532192',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -92,7 +92,69 @@ $_smarty_tpl->tpl_vars['r']->do_else = false;
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
     </tbody>
 </table>
-<?php
+
+     <?php if ((isset($_smarty_tpl->tpl_vars['current_page']->value)) && (isset($_smarty_tpl->tpl_vars['total_pages']->value)) && $_smarty_tpl->tpl_vars['total_pages']->value > 1) {?>
+        <ul class="pure-menu-list top-margin">
+            <?php if ($_smarty_tpl->tpl_vars['current_page']->value > 1) {?>
+            <li class="pure-menu-item">
+                <a class="pure-menu-link"
+                   href="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_root;?>
+reservationList?sf_status=<?php echo (($tmp = $_smarty_tpl->tpl_vars['sf_status']->value ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+&page=<?php echo $_smarty_tpl->tpl_vars['current_page']->value-1;?>
+">
+                   &laquo; Poprzednia
+                </a>
+            </li>
+            <?php } else { ?>
+            <li class="pure-menu-item pure-menu-disabled">
+                <span class="pure-menu-link">&laquo; Poprzednia</span>
+            </li>
+            <?php }?>
+
+            <?php
+$_smarty_tpl->tpl_vars['i'] = new Smarty_Variable(null, $_smarty_tpl->isRenderingCache);$_smarty_tpl->tpl_vars['i']->step = 1;$_smarty_tpl->tpl_vars['i']->total = (int) ceil(($_smarty_tpl->tpl_vars['i']->step > 0 ? $_smarty_tpl->tpl_vars['total_pages']->value+1 - (1) : 1-($_smarty_tpl->tpl_vars['total_pages']->value)+1)/abs($_smarty_tpl->tpl_vars['i']->step));
+if ($_smarty_tpl->tpl_vars['i']->total > 0) {
+for ($_smarty_tpl->tpl_vars['i']->value = 1, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++) {
+$_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 1;$_smarty_tpl->tpl_vars['i']->last = $_smarty_tpl->tpl_vars['i']->iteration === $_smarty_tpl->tpl_vars['i']->total;?>
+                <?php if ($_smarty_tpl->tpl_vars['i']->value == $_smarty_tpl->tpl_vars['current_page']->value) {?>
+                    <li class="pure-menu-item pure-menu-selected">
+                        <span class="pure-menu-link"><?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+</span>
+                    </li>
+                <?php } else { ?>
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link"
+                           href="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_root;?>
+reservationList?sf_status=<?php echo (($tmp = $_smarty_tpl->tpl_vars['sf_status']->value ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+&page=<?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+">
+                           <?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+
+                        </a>
+                    </li>
+                <?php }?>
+            <?php }
+}
+?>
+
+            <?php if ($_smarty_tpl->tpl_vars['current_page']->value < $_smarty_tpl->tpl_vars['total_pages']->value) {?>
+            <li class="pure-menu-item">
+                <a class="pure-menu-link"
+                   href="<?php echo $_smarty_tpl->tpl_vars['conf']->value->action_root;?>
+reservationList?sf_status=<?php echo (($tmp = $_smarty_tpl->tpl_vars['sf_status']->value ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+&page=<?php echo $_smarty_tpl->tpl_vars['current_page']->value+1;?>
+">
+                   Następna &raquo;
+                </a>
+            </li>
+            <?php } else { ?>
+            <li class="pure-menu-item pure-menu-disabled">
+                <span class="pure-menu-link">Następna &raquo;</span>
+            </li>
+            <?php }?>
+        </ul>
+    <?php }?>
+    <?php
 }
 }
 /* {/block 'top'} */

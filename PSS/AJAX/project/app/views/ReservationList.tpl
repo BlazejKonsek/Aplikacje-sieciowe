@@ -37,4 +37,51 @@
     {/foreach}
     </tbody>
 </table>
+
+ {* ——— stronicowanie ——— *}
+    {if isset($current_page) && isset($total_pages) && $total_pages > 1}
+        <ul class="pure-menu-list top-margin">
+            {if $current_page > 1}
+            <li class="pure-menu-item">
+                <a class="pure-menu-link"
+                   href="{$conf->action_root}reservationList?sf_status={$sf_status|default:''}&page={$current_page-1}">
+                   &laquo; Poprzednia
+                </a>
+            </li>
+            {else}
+            <li class="pure-menu-item pure-menu-disabled">
+                <span class="pure-menu-link">&laquo; Poprzednia</span>
+            </li>
+            {/if}
+
+            {for $i = 1 to $total_pages}
+                {if $i == $current_page}
+                    <li class="pure-menu-item pure-menu-selected">
+                        <span class="pure-menu-link">{$i}</span>
+                    </li>
+                {else}
+                    <li class="pure-menu-item">
+                        <a class="pure-menu-link"
+                           href="{$conf->action_root}reservationList?sf_status={$sf_status|default:''}&page={$i}">
+                           {$i}
+                        </a>
+                    </li>
+                {/if}
+            {/for}
+
+            {if $current_page < $total_pages}
+            <li class="pure-menu-item">
+                <a class="pure-menu-link"
+                   href="{$conf->action_root}reservationList?sf_status={$sf_status|default:''}&page={$current_page+1}">
+                   Następna &raquo;
+                </a>
+            </li>
+            {else}
+            <li class="pure-menu-item pure-menu-disabled">
+                <span class="pure-menu-link">Następna &raquo;</span>
+            </li>
+            {/if}
+        </ul>
+    {/if}
+    {* ———————————————————— *}
 {/block}
